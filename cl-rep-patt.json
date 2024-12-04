@@ -1,0 +1,10 @@
+[
+    {
+        "src": "a src string",
+        "dst": "a dst string"
+    },
+    {
+        "src": "b src string",
+        "dst": "b dst string"
+    }
+]
