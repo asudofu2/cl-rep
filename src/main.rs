@@ -1,11 +1,17 @@
 use arboard::Clipboard;
 use serde::{Deserialize, Serialize};
-use std::fs::File;
+use std::{env, fs::File};
 
-const PATTERN_FILE_NAME: &str = "cl-rep-patt.json";
 
 fn main() {
-    match replace_clip_string() {
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 2 {
+        eprintln!("Error: No args specified");
+        return 
+    }
+
+    
+    match replace_clip_string(&args[1]) {
         Ok(msg) => {println!("{msg}")},
         Err(e) => eprintln!("Error: {e}"),
     };
@@ -17,8 +23,8 @@ struct ReplacePattern {
     dst: String,
 }
 
-pub fn replace_clip_string() -> Result<String, Box<dyn std::error::Error>> {
-    let pattern_list = read_pattern_list(PATTERN_FILE_NAME)?;
+pub fn replace_clip_string(pattern_file_path: &str) -> Result<String, Box<dyn std::error::Error>> {
+    let pattern_list = read_pattern_list(pattern_file_path)?;
     
     let mut clipboard = Clipboard::new()?;
     let src_text = clipboard.get_text()?;
@@ -49,9 +55,11 @@ fn read_pattern_list(path: &str) -> Result<Vec<ReplacePattern>, Box<dyn std::err
 mod tests {
     use crate::read_pattern_list;
 
+    const PATTERN_FILE_NAME: &str = "cl-rep-patt.json";
+
     #[test]
     fn read_pattern_file() {
-        let res = read_pattern_list(super::PATTERN_FILE_NAME).unwrap();
+        let res = read_pattern_list(PATTERN_FILE_NAME).unwrap();
 
         assert_eq!(2, res.len());
         assert_eq!("a src string", res[0].src);
