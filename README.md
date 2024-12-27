@@ -1,11 +1,17 @@
 # cl-rep
+
 クリップボードの文字列を置換しクリップボードに追加する。
 置換するパターンはコマンドライン引数でパターンファイルを指定する。
 
 ## コマンド例
 
 ```sh
-cl-rep cl-rep-patt.json
+Usage: cl-rep.exe [OPTIONS]
+
+Options:
+  -p, --pattern-file <PATTERN_FILE>  [default: cl-rep-patt.json]
+  -h, --help                         Print help
+  -V, --version                      Print version
 ```
 
 ## パターンファイル
